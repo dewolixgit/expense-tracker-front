@@ -1,0 +1,35 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:import/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "eslint-config-prettier"
+    ],
+    "plugins": [
+        "eslint-plugin-prettier"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+                "paths": ["src"],
+                "extensions": [".js", ".jsx", ".ts", ".tsx"],
+            }
+        }
+    },
+    "rules": {
+        "no-console": "warn",
+        "prefer-const": "error",
+        "prefer-arrow-callback": "error",
+        "no-unused-vars": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "warn",
+        "@typescript-eslint/no-empty-function": "off",
+        "prettier/prettier": "warn",
+        "react-hooks/exhaustive-deps": "off"
+    }
+}
