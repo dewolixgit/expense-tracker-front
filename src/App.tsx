@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as React from 'react';
 
 import s from './App.module.scss';
+import { Logo } from './App.styles';
 
 import foo from 'assets/hi/foo';
 import reactLogo from 'assets/react.svg';
@@ -17,14 +18,10 @@ function App() {
       <Bar />
       <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className={s.logo} alt="Vite logo" />
+          <Logo src="/vite.svg" alt="Vite logo" />
         </a>
         <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img
-            src={reactLogo}
-            className={`${s.logo} ${s.react}`}
-            alt="React logo"
-          />
+          <Logo src={reactLogo} alt="React logo" isReact />
         </a>
       </div>
       <h1>Vite + React</h1>
