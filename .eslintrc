@@ -9,6 +9,7 @@
     "plugins": [
         "eslint-plugin-prettier"
     ],
+    "parser": "@typescript-eslint/parser",
     "settings": {
         "react": {
             "version": "detect"
@@ -16,7 +17,7 @@
         "import/resolver": {
             "node": {
                 "paths": ["src"],
-                "extensions": [".js", ".jsx", ".ts", ".tsx"],
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
             }
         }
     },
@@ -30,6 +31,16 @@
         "@typescript-eslint/ban-ts-comment": "warn",
         "@typescript-eslint/no-empty-function": "off",
         "prettier/prettier": "warn",
-        "react-hooks/exhaustive-deps": "off"
+        "react-hooks/exhaustive-deps": "off",
+        "import/order": [
+            "error",
+            {
+                "groups": ["builtin", "external", "parent", "sibling", "index"],
+                "newlines-between": "always",
+                "alphabetize": {
+                    "order": "asc"
+                }
+            }
+        ]
     }
 }
