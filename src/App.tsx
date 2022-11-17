@@ -1,3 +1,5 @@
+import { createEvent, createStore } from 'effector';
+import { useStore } from 'effector-react';
 import { useState } from 'react';
 import * as React from 'react';
 
@@ -8,8 +10,12 @@ import foo from 'assets/hi/foo';
 import reactLogo from 'assets/react.svg';
 import { Bar } from 'components/assets/Bar';
 
+const $count = createStore(0);
+const clicked = createEvent();
+$count.on(clicked, (prev) => prev + 1);
+
 function App() {
-  const [count, setCount] = useState(0);
+  const count = useStore($count);
 
   foo(5);
 
@@ -26,9 +32,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className={s.card}>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <button onClick={() => clicked()}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
