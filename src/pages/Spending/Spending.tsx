@@ -1,7 +1,15 @@
 import * as React from 'react';
 
+import { FlexContainer, StyledLogo } from './Spending.styles';
+import { SpendingSection } from './components';
+
 const Spending: React.FC = () => {
-  return <div>Spending page</div>;
+  return (
+    <FlexContainer>
+      <StyledLogo />
+      <SpendingSection />
+    </FlexContainer>
+  );
 };
 
 export default Spending;

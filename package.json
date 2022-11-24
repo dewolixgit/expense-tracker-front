@@ -12,6 +12,7 @@
     "prettier:write": "prettier --write ."
   },
   "dependencies": {
+    "antd": "^5.0.1",
     "babel-plugin-styled-components": "^2.0.7",
     "effector": "^22.4.0",
     "effector-react": "^22.3.4",
