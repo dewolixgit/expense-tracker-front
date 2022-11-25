@@ -2,8 +2,12 @@ export const rootContainerWidth = {
   desktop: '816px',
 };
 
-export const commonBorderRadius = {
-  desktop: '4px',
+export const commonElementsBorderRadius = {
+  desktop: '8px',
+};
+
+export const commonBlocksBorderRadius = {
+  desktop: '16px',
 };
 
 export const commonSectionMargin = {
