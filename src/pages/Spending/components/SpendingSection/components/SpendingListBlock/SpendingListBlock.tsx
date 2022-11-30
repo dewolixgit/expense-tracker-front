@@ -1,3 +1,4 @@
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Space } from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import * as React from 'react';
@@ -5,6 +6,7 @@ import * as React from 'react';
 import {
   Container,
   SidePaddingContainer,
+  StyledButton,
   StyledDivider,
   Title,
 } from './SpendingListBlock.styles';
@@ -15,7 +17,10 @@ import { DATES_FORMAT_CAPITAL_L } from 'config/dates';
 const SpendingListBlock: React.FC = () => {
   return (
     <Container>
-      <Title>Расходы</Title>
+      <Title>
+        Расходы
+        <StyledButton icon={<PlusOutlined />} />
+      </Title>
       <StyledDivider />
       <SidePaddingContainer>
         <Space direction="vertical">

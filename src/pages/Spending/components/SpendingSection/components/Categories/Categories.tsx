@@ -1,3 +1,4 @@
+import { PlusOutlined } from '@ant-design/icons';
 import * as React from 'react';
 import SwiperCore, { Grid, Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,6 +7,7 @@ import {
   BETWEEN_SLIDES_PX,
   Container,
   InnerSlide,
+  StyledButton,
   Text,
 } from './Categories.styles';
 
@@ -40,6 +42,7 @@ const Categories: React.FC = () => {
             </SwiperSlide>
           ))}
       </Swiper>
+      <StyledButton icon={<PlusOutlined />} />
     </Container>
   );
 };
