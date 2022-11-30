@@ -4,17 +4,15 @@ import * as React from 'react';
 
 import { Router } from './pages';
 
-import { RootContainer, RootLayout } from 'components/ui';
+import { RootContainer } from 'components/ui';
 
 dayjs.locale('ru');
 
 function App() {
   return (
-    <RootLayout>
-      <RootContainer>
-        <Router />
-      </RootContainer>
-    </RootLayout>
+    <RootContainer>
+      <Router />
+    </RootContainer>
   );
 }
 

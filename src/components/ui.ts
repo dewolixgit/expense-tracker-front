@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { rootContainerWidth } from 'styles/consts';
 import { square } from 'styles/mixins';
 
-export const RootLayout = styled.div``;
-
 export const RootContainer = styled.div`
   position: relative;
   ${square('100%')};
