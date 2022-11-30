@@ -1,4 +1,5 @@
 import { Button, DatePicker, Space } from 'antd';
+import locale from 'antd/es/date-picker/locale/ru_RU';
 import * as React from 'react';
 
 import {
@@ -6,8 +7,10 @@ import {
   SidePaddingContainer,
   StyledDivider,
   Title,
-} from 'pages/Spending/components/SpendingSection/components/SpendingListBlock/SpendingListBlock.styles';
-import { SpendingList } from 'pages/Spending/components/SpendingSection/components/SpendingListBlock/components/SpendingList';
+} from './SpendingListBlock.styles';
+import { SpendingList } from './components';
+
+import { DATES_FORMAT_CAPITAL_L } from 'config/dates';
 
 const SpendingListBlock: React.FC = () => {
   return (
@@ -17,10 +20,17 @@ const SpendingListBlock: React.FC = () => {
       <SidePaddingContainer>
         <Space direction="vertical">
           <Space>
-            <DatePicker showToday={false} />
+            <DatePicker
+              showToday={false}
+              locale={locale}
+              format={DATES_FORMAT_CAPITAL_L}
+            />
             <Button type="primary">Сегодня</Button>
           </Space>
-          <DatePicker.RangePicker />
+          <DatePicker.RangePicker
+            locale={locale}
+            format={DATES_FORMAT_CAPITAL_L}
+          />
         </Space>
       </SidePaddingContainer>
       <StyledDivider />

@@ -3,12 +3,10 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import * as React from 'react';
 
+import { Color, ScrollContainer } from './SpendingList.styles';
+
 import { DATES_FORMAT_CAPITAL_L } from 'config/dates';
-import { mockList } from 'pages/Spending/components/SpendingSection/components/Categories/mock';
-import {
-  Color,
-  ScrollContainer,
-} from 'pages/Spending/components/SpendingSection/components/SpendingListBlock/components/SpendingList/SpendingList.styles';
+import { mockList } from 'config/mock';
 
 dayjs.extend(localizedFormat);
 
