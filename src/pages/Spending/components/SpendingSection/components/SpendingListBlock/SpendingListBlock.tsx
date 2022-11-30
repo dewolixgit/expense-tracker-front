@@ -1,7 +1,6 @@
-import { Avatar, Button, DatePicker, Divider, Space } from 'antd';
+import { Button, DatePicker, Space } from 'antd';
 import * as React from 'react';
 
-import { mockList } from 'pages/Spending/components/SpendingSection/components/Categories/mock';
 import {
   Container,
   SidePaddingContainer,
