@@ -17,3 +17,7 @@ export const commonSectionMargin = {
 export const commonBlocksMargin = {
   desktop: '16px',
 };
+
+export const commonContentPadding = {
+  desktop: '10px',
+};

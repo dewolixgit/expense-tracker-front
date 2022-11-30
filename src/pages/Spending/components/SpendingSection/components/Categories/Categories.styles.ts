@@ -44,6 +44,11 @@ export const Container = styled.div`
     box-shadow: ${shadows.light};
     border-radius: ${commonElementsBorderRadius.desktop};
   }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    text-rendering: auto;
+  }
 `;
 
 export const InnerSlide = styled.div<{ color?: string }>`

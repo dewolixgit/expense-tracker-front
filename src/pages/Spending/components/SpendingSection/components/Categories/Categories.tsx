@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SwiperCore, { Grid, Pagination } from 'swiper';
+import SwiperCore, { Grid, Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import {
@@ -9,11 +9,12 @@ import {
   Text,
 } from './Categories.styles';
 
-import 'swiper/css';
-import 'swiper/css/grid';
-import 'swiper/css/pagination';
+import 'swiper/scss';
+import 'swiper/scss/grid';
+import 'swiper/scss/pagination';
+import 'swiper/scss/navigation';
 
-SwiperCore.use([Grid, Pagination]);
+SwiperCore.use([Grid, Pagination, Navigation]);
 
 const Categories: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const Categories: React.FC = () => {
         pagination={{
           clickable: true,
         }}
+        navigation
       >
         {Array(16)
           .fill(null)

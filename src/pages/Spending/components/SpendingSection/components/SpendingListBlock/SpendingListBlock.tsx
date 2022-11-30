@@ -1,16 +1,32 @@
+import { Avatar, Button, DatePicker, Divider, Space } from 'antd';
 import * as React from 'react';
+
+import { mockList } from 'pages/Spending/components/SpendingSection/components/Categories/mock';
+import {
+  Container,
+  SidePaddingContainer,
+  StyledDivider,
+  Title,
+} from 'pages/Spending/components/SpendingSection/components/SpendingListBlock/SpendingListBlock.styles';
+import { SpendingList } from 'pages/Spending/components/SpendingSection/components/SpendingListBlock/components/SpendingList';
 
 const SpendingListBlock: React.FC = () => {
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'lightgray',
-      }}
-    >
-      SpendingListBlock
-    </div>
+    <Container>
+      <Title>Расходы</Title>
+      <StyledDivider />
+      <SidePaddingContainer>
+        <Space direction="vertical">
+          <Space>
+            <DatePicker showToday={false} />
+            <Button type="primary">Сегодня</Button>
+          </Space>
+          <DatePicker.RangePicker />
+        </Space>
+      </SidePaddingContainer>
+      <StyledDivider />
+      <SpendingList />
+    </Container>
   );
 };
 

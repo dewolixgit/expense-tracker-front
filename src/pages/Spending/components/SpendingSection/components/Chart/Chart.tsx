@@ -37,7 +37,6 @@ const Chart: React.FC = () => {
       style={{
         width: '100%',
         height: 380,
-        backgroundColor: 'gray',
       }}
     >
       <Pie data={data} />
