@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import styled, { css } from 'styled-components';
 
 import { colors, shadows } from 'styles/colors';
@@ -13,6 +14,7 @@ import { textSBold } from 'styles/typography';
 export const BETWEEN_SLIDES_PX = 20;
 
 export const Container = styled.div`
+  position: relative;
   width: 100%;
   height: 300px;
   margin-top: ${commonBlocksMargin.desktop};
@@ -50,6 +52,13 @@ export const Container = styled.div`
     text-rendering: auto;
   }
 `;
+
+export const StyledButton = styled(Button)`
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 3;
+` as typeof Button;
 
 export const InnerSlide = styled.div<{ color?: string }>`
   padding: 8px;
