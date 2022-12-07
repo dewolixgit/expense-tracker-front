@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
+import 'models/init';
+
 import 'styles/index.scss';
 import 'swiper/css/bundle';
 

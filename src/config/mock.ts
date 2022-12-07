@@ -30,7 +30,7 @@ export const mockCategories: CategoryType[] = [
   },
 ];
 
-export const mockList: SpendingType[] = [
+export const mockExpenses: SpendingType[] = [
   {
     id: '1',
     money: 300,

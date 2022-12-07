@@ -6,7 +6,7 @@ import * as React from 'react';
 import { Color, ScrollContainer } from './SpendingList.styles';
 
 import { DATES_FORMAT_CAPITAL_L } from 'config/dates';
-import { mockList } from 'config/mock';
+import { mockExpenses } from 'config/mock';
 
 dayjs.extend(localizedFormat);
 
@@ -14,7 +14,7 @@ const SpendingList: React.FC = () => {
   return (
     <ScrollContainer>
       <List
-        dataSource={mockList}
+        dataSource={mockExpenses}
         renderItem={(item) => (
           <List.Item
             key={item.id}
