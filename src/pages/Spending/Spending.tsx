@@ -1,12 +1,21 @@
+import { useEvent } from 'effector-react';
 import * as React from 'react';
 
-import { FlexContainer, StyledLogo } from './Spending.styles';
+import { FlexContainer, Header, StyledLogout } from './Spending.styles';
 import { SpendingSection } from './components';
 
+import { Logo } from 'components/Logo';
+import { userLogoutFx } from 'models/user';
+
 const Spending: React.FC = () => {
+  const logout = useEvent(userLogoutFx);
+
   return (
     <FlexContainer>
-      <StyledLogo />
+      <Header>
+        <StyledLogout onClick={logout} />
+        <Logo />
+      </Header>
       <SpendingSection />
     </FlexContainer>
   );
