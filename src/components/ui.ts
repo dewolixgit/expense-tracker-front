@@ -9,3 +9,7 @@ export const RootContainer = styled.div`
   max-width: ${rootContainerWidth.desktop};
   margin: 0 auto;
 `;
+
+export const Relative = styled.div`
+  position: relative;
+`;

@@ -9,25 +9,53 @@ import {
   Select,
 } from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
+import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
+import { useStore } from 'effector-react';
 import * as React from 'react';
 
 import { Color } from './CreateExpenseModal.styles';
 
+import { finishSubmit } from 'components/modals/CreateExpenseModal/model';
+import { CreateExpenseFormFieldsType } from 'components/modals/CreateExpenseModal/types';
 import { DATES_FORMAT_CAPITAL_L } from 'config/dates';
 import {
   COMMON_REQUIRED_MESSAGE,
   getCreateExpenseInitialValues,
 } from 'config/forms';
-import { mockCategories } from 'config/mock';
+import { $categories } from 'models/categories';
+import { triggerMessage } from 'models/messages';
+import getZeroLocalString from 'utils/getZeroLocalString';
 
-type Props = Pick<ModalProps, 'open' | 'onCancel'>;
+type Props = Pick<ModalProps, 'open'> & { onCancel?: VoidFunction };
 
 const CreateExpenseModal: React.FC<Props> = ({ onCancel, open = false }) => {
-  const initialFormValues = React.useMemo(
-    () => getCreateExpenseInitialValues(mockCategories[0].id),
-    []
-  );
+  const categories = useStore($categories);
+  const [form] = useForm();
+
+  React.useEffect(() => {
+    if (!open) {
+      form.resetFields();
+    }
+  }, [open]);
+
+  const onFinish = React.useCallback((fields: CreateExpenseFormFieldsType) => {
+    const now = dayjs(getZeroLocalString(dayjs()));
+    const selectedDate = dayjs(getZeroLocalString(fields.date));
+
+    if (now < selectedDate) {
+      triggerMessage('Выбранная дата позже сегодняшней');
+      return;
+    }
+
+    finishSubmit({
+      date: fields.date,
+      categoryId: fields.categoryId,
+      description: fields.description,
+      value: fields.value,
+      onSuccess: () => onCancel?.(),
+    });
+  }, []);
 
   return (
     <Modal
@@ -38,16 +66,17 @@ const CreateExpenseModal: React.FC<Props> = ({ onCancel, open = false }) => {
     >
       <Form
         layout="vertical"
-        onFinish={console.log}
-        initialValues={initialFormValues}
+        onFinish={onFinish}
+        initialValues={getCreateExpenseInitialValues()}
+        form={form}
       >
         <Form.Item
           label="Категория"
-          name="category"
+          name="categoryId"
           rules={[{ required: true, message: COMMON_REQUIRED_MESSAGE }]}
         >
           <Select>
-            {mockCategories.map(({ name, color, id }) => (
+            {categories.map(({ name, color, id }) => (
               <Select.Option key={id}>
                 <Row align="middle">
                   <Color color={color} />
@@ -56,6 +85,14 @@ const CreateExpenseModal: React.FC<Props> = ({ onCancel, open = false }) => {
               </Select.Option>
             ))}
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="Сколько потрачено"
+          name="value"
+          rules={[{ required: true, message: COMMON_REQUIRED_MESSAGE }]}
+        >
+          <Input type="number" />
         </Form.Item>
 
         <Form.Item

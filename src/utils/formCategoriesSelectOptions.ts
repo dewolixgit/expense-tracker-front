@@ -1,4 +1,4 @@
-import { CategoryType } from 'config/mock';
+import { CategoryType } from 'models/categories/types';
 import { CategoriesSelectOptionType } from 'types/categoriesSelect';
 
 const formCategoriesSelectOptions = (

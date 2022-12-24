@@ -66,6 +66,7 @@ export const InnerSlide = styled.div<{ color?: string }>`
   ${square('100%')};
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 

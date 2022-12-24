@@ -22,7 +22,8 @@
       "pages/*": ["./pages/*"],
       "types/*": ["./types/*"],
       "utils/*": ["./utils/*"],
-      "config/*": ["./config/*"]
+      "config/*": ["./config/*"],
+      "models/*": ["./models/*"]
     }
   },
   "include": ["src"],

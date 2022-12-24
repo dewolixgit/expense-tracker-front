@@ -9,7 +9,7 @@ type Props = {
   isAuthenticated?: boolean;
 };
 
-const Router: React.FC<Props> = ({ isAuthenticated = true }) => (
+const Router: React.FC<Props> = ({ isAuthenticated = false }) => (
   <BrowserRouter>
     {isAuthenticated ? (
       <>
