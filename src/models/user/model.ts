@@ -6,7 +6,7 @@ import { defaultUserData, LOCALSTORAGE_USER_DATA_NAME } from 'config/user';
 
 export const userDataChanged = createEvent<UserType>();
 
-const $user = restore<UserType>(userDataChanged, defaultUserData);
+export const $user = restore<UserType>(userDataChanged, defaultUserData);
 
 export const $isUserAuthenticated = $user.map((store) => !!store.token);
 
@@ -33,7 +33,7 @@ export const userLoginFx = createEffect<void, UserType | null>(() => {
   if (userData && userData.token && userData.userId) {
     return {
       id: userData.userId,
-      token: userData.userId,
+      token: userData.token,
     };
   }
 

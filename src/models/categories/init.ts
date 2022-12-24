@@ -1,24 +1,54 @@
-import { normalizeCategory } from './normalizers';
-import { CategoriesMapType, CategoryType } from './types';
+import { sample } from 'effector';
 
 import {
   $categories,
   createCategoryFx,
+  deleteCategory,
   deleteCategoryFx,
   editCategoryFx,
+  getCategories,
   getCategoriesFx,
-} from './';
+} from './model';
+import { normalizeCategory } from './normalizers';
+import { CategoriesMapType, CategoryDeletingPayloadType } from './types';
 
-import { $expenses } from 'models/expenses';
-import sleep from 'utils/sleep';
+import { ENDPOINTS } from 'config/endpoints';
+import { triggerMessage } from 'models/messages';
+import { $user, UserType } from 'models/user';
+import { getAuthHeader } from 'utils/getAuthHeader';
+import { request } from 'utils/request';
 
-// todo
-// todo normalize
-getCategoriesFx.use(() => []);
+getCategoriesFx.use(async (token) => {
+  try {
+    const response = await request({
+      ...ENDPOINTS.categories,
+      headers: getAuthHeader(token),
+    });
 
-$categories.on(getCategoriesFx.doneData, (categories) => categories);
+    if (!response || !response.categories) {
+      return [];
+    }
 
-const $categoriesMap = $categories.map<CategoriesMapType>((categories) =>
+    return response.categories.map(normalizeCategory);
+  } catch (e) {
+    triggerMessage('Произошла ошибка');
+    return [];
+  }
+});
+
+$categories.on(
+  getCategoriesFx.doneData,
+  (_, gottenCategories) => gottenCategories
+);
+
+sample({
+  clock: getCategories,
+  source: $user,
+  fn: (user) => user.token,
+  target: getCategoriesFx,
+});
+
+export const $categoriesMap = $categories.map<CategoriesMapType>((categories) =>
   categories.reduce(
     (acc, category) => ({
       ...acc,
@@ -28,63 +58,118 @@ const $categoriesMap = $categories.map<CategoriesMapType>((categories) =>
   )
 );
 
-// todo
-// todo normalize
-createCategoryFx.use(async (creatingPayload) => {
-  await sleep();
+createCategoryFx.use(async ({ name, color, token, onSuccess }) => {
+  try {
+    const response = await request({
+      ...ENDPOINTS.createCategory,
+      headers: getAuthHeader(token),
+      body: {
+        name,
+        color,
+      },
+    });
 
-  return {
-    id: 'dsfds',
-    name: creatingPayload.name,
-    color: creatingPayload.color,
-  };
+    if (!response || !response.category) {
+      triggerMessage('Произошла ошибка');
+      return null;
+    }
+
+    onSuccess();
+    return normalizeCategory(response.category);
+  } catch (e: any) {
+    triggerMessage(e.message ?? 'Произошла ошибка');
+    return null;
+  }
 });
 
-$categories.on(
-  createCategoryFx.doneData,
-  (prevCategories, apiCreatedCategory) => [
-    ...prevCategories,
-    normalizeCategory(apiCreatedCategory),
-  ]
+$categories.on(createCategoryFx.doneData, (prevCategories, createdCategory) =>
+  createdCategory ? [...prevCategories, createdCategory] : undefined
 );
 
-// todo
-// todo normalize
-editCategoryFx.use(async ({ id, name, color }) => {
-  await sleep();
+editCategoryFx.use(async ({ id, name, color, token, onSuccess }) => {
+  try {
+    const response = await request({
+      ...ENDPOINTS.editCategory,
+      headers: getAuthHeader(token),
+      body: {
+        id,
+        name,
+        color,
+      },
+    });
 
-  const toReturn: CategoryType = {
-    id,
-    name: name ?? 'abc',
-    color: color ?? 'colorAbc',
-  };
+    if (!response || !response.category) {
+      triggerMessage('Произошла ошибка');
+      return null;
+    }
 
-  return toReturn;
+    onSuccess();
+    return normalizeCategory(response.category);
+  } catch (e: any) {
+    triggerMessage(e.message ?? 'Произошла ошибка');
+    return null;
+  }
 });
 
 $categories.on(
   editCategoryFx.done,
-  (prevCategories, { params: { index }, result: apiEditedCategory }) => {
-    prevCategories[index] = normalizeCategory(apiEditedCategory);
+  (prevCategories, { params: { id }, result: editedCategory }) => {
+    if (!editedCategory) {
+      return undefined;
+    }
+
+    // Todo: вызвать загрузку расходов, если есть расходы с текущией категорией
+
+    // Некрасиво, но предположим, что категорий не будет очень много
+    const index = prevCategories.findIndex((category) => category.id === id);
+
+    // Todo: проверить, нет ли проблем из-за изменения не по ссылке
+    prevCategories[index] = editedCategory;
     return prevCategories;
   }
 );
 
 // todo реакция expenses не удаление категории
-// todo normalize
-// todo
-deleteCategoryFx.use(async (deletingPayload) => ({
-  expenseDeletingTriggered: false,
-}));
+deleteCategoryFx.use(async ({ id, token }) => {
+  try {
+    const response = await request({
+      ...ENDPOINTS.deleteCategory,
+      headers: getAuthHeader(token),
+      body: {
+        id,
+      },
+    });
 
-$categories.on(
-  deleteCategoryFx.done,
-  (prevCategories, { params: deletedCategoryId }) =>
-    prevCategories.filter((category) => category.id !== deletedCategoryId)
-);
+    if (!response || !response.message) {
+      triggerMessage('Произошла ошибка');
+      return;
+    }
 
-$expenses.on(deleteCategoryFx.doneData, (_, deleteCategoryApiResponse) => {
-  if (deleteCategoryApiResponse.expenseDeletingTriggered) {
-    return deleteCategoryApiResponse.categories;
+    triggerMessage(response.message);
+  } catch (e: any) {
+    triggerMessage(e.message ?? 'Произошла ошибка');
   }
 });
+
+sample({
+  clock: deleteCategory,
+  source: $user,
+  fn: (
+    user,
+    categoryToDeleteId
+  ): CategoryDeletingPayloadType & Pick<UserType, 'token'> => ({
+    id: categoryToDeleteId,
+    token: user.token,
+  }),
+  target: deleteCategoryFx,
+});
+
+$categories.on(deleteCategoryFx.done, (prevCategories, { params: { id } }) =>
+  prevCategories.filter((category) => category.id !== id)
+);
+
+// $expenses.on(deleteCategoryFx.doneData, (_, deleteCategoryApiResponse) => {
+//   if (deleteCategoryApiResponse.expenseDeletingTriggered) {
+//     return deleteCategoryApiResponse.categories;
+//   }
+// });

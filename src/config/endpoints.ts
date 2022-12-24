@@ -9,4 +9,21 @@ export const ENDPOINTS = {
     url: '/api/auth/authenticate',
     method: RequestMethodsEnum.POST,
   },
+
+  categories: {
+    url: '/api/categories/get',
+    method: RequestMethodsEnum.GET,
+  },
+  createCategory: {
+    url: '/api/categories/create',
+    method: RequestMethodsEnum.POST,
+  },
+  editCategory: {
+    url: '/api/categories/edit',
+    method: RequestMethodsEnum.POST,
+  },
+  deleteCategory: {
+    url: '/api/categories/delete',
+    method: RequestMethodsEnum.POST,
+  },
 };

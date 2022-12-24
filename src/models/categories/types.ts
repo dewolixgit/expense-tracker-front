@@ -15,21 +15,6 @@ export type CategoriesMapType = Record<CategoryType['id'], CategoryType>;
 export type CategoryCreatingPayloadType = Omit<CategoryType, 'id'>;
 
 export type CategoryEditingPayLoadType = Pick<CategoryType, 'id'> &
-  Partial<Omit<CategoryType, 'id'>> & {
-    index: number;
-  };
+  Partial<Omit<CategoryType, 'id'>>;
 
-export type CategoryDeletingPayloadType = CategoryType['id'];
-
-/**
- * Если при удалении категории были удалены некоторые расходы,
- * api вернёт список категорий. Иначе укажет, что удаления расходов не было
- */
-export type CategoryDeletingApiResponseType =
-  | {
-      expenseDeletingTriggered: true;
-      categories: [];
-    }
-  | {
-      expenseDeletingTriggered: false;
-    };
+export type CategoryDeletingPayloadType = Pick<CategoryType, 'id'>;

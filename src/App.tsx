@@ -16,10 +16,15 @@ function App() {
   const [messageApi, contextHolder] = message.useMessage();
 
   const isAuthenticated = useStore($isUserAuthenticated);
+  const isAuthenticating = useStore(userLoginFx.pending);
 
   React.useEffect(() => {
     userLoginFx();
   });
+
+  if (isAuthenticating) {
+    return null;
+  }
 
   return (
     <RootContainer>
