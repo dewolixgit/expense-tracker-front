@@ -17,7 +17,7 @@ import 'swiper/scss';
 import 'swiper/scss/grid';
 import 'swiper/scss/pagination';
 import 'swiper/scss/navigation';
-import { ApproveModal } from 'components/modals';
+import { ApproveModal, CategoryModal } from 'components/modals';
 import { $categories, deleteCategory } from 'models/categories';
 import { CategoryType } from 'models/categories/types';
 
