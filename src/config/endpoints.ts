@@ -26,4 +26,17 @@ export const ENDPOINTS = {
     url: '/api/categories/delete',
     method: RequestMethodsEnum.POST,
   },
+
+  expenses: {
+    url: '/api/expenses/get',
+    method: RequestMethodsEnum.GET,
+  },
+  createExpense: {
+    url: '/api/expenses/create',
+    method: RequestMethodsEnum.POST,
+  },
+  deleteExpense: {
+    url: '/api/expenses/delete',
+    method: RequestMethodsEnum.POST,
+  },
 };

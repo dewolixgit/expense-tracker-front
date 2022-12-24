@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
-import 'models/init';
+// Мб костыль, но помогает в правильном порядке определить обработчики
+import './models/expenses/init';
 
 import 'styles/index.scss';
 import 'swiper/css/bundle';

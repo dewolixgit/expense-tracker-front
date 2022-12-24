@@ -5,7 +5,7 @@ import { createGate } from 'effector-react';
 import {
   ChangeCategoryFieldsType,
   EditCategoryFormPayloadType,
-} from 'components/modals/CreateCategoryModal/types';
+} from 'components/modals/CategoryModal/types';
 import { createCategoryFx, editCategoryFx } from 'models/categories';
 import {
   CategoryCreatingPayloadType,

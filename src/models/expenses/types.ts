@@ -7,6 +7,7 @@ export type ApiExpenseType = {
   category: ApiCategoryType;
   description: string;
   date: string;
+  value: number;
 };
 
 export type ExpenseType = {
@@ -14,13 +15,23 @@ export type ExpenseType = {
   category: CategoryType;
   description: string;
   date: Dayjs;
+  value: number;
 };
 
-export type ExpenseCreationPayload = Omit<ExpenseType, 'id'>;
+export type ExpenseGettingPayload = {
+  startDateString?: string;
+  endDateString?: string;
+};
 
-export type ExpenseEditingPayload = Pick<ExpenseType, 'id'> &
-  Partial<Omit<ExpenseType, 'id'>> & {
-    index: number;
-  };
+export type ExpenseCreationPayload = Pick<ExpenseType, 'category'> & {
+  description?: string;
+  date: string;
+  value: number;
+};
+//
+// export type ExpenseEditingPayload = Pick<ExpenseType, 'id'> &
+//   Partial<Omit<ExpenseType, 'id'>> & {
+//     index: number;
+//   };
 
-export type ExpenseDeletingPayload = ExpenseType['id'];
+export type ExpenseDeletingPayload = Pick<ExpenseType, 'id'>;

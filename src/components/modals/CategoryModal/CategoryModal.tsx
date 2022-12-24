@@ -5,7 +5,7 @@ import { HexColorPicker } from 'react-colorful';
 
 import { finishCreatingForm, finishEditingForm, FormApiGate } from './model';
 
-import { ChangeCategoryFieldsType } from 'components/modals/CreateCategoryModal/types';
+import { ChangeCategoryFieldsType } from 'components/modals/CategoryModal/types';
 import { ADD_CATEGORY_INITIAL_VALUES } from 'config/forms';
 import { CategoryType } from 'models/categories/types';
 
@@ -17,7 +17,7 @@ type Props = Pick<ModalProps, 'open'> & { onCancel: VoidFunction } & (
     | { editing: false }
   );
 
-const CreateCategoryModal: React.FC<Props> = (props) => {
+const CategoryModal: React.FC<Props> = (props) => {
   const { open = false, onCancel, editing } = props;
 
   const [formApi] = useForm();
@@ -57,7 +57,11 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
   return (
     <Modal
       visible={open}
-      title="Создание категории расходов"
+      title={
+        editing
+          ? 'Редактирование категории расходов'
+          : 'Создание категории расходов'
+      }
       onCancel={onCancel}
       footer={<Button onClick={onCancel}>Отмена</Button>}
     >
@@ -94,4 +98,4 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
   );
 };
 
-export default React.memo(CreateCategoryModal);
+export default React.memo(CategoryModal);

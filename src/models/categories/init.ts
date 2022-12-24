@@ -13,6 +13,7 @@ import { normalizeCategory } from './normalizers';
 import { CategoriesMapType, CategoryDeletingPayloadType } from './types';
 
 import { ENDPOINTS } from 'config/endpoints';
+import { ExpenseGettingPayload, getExpensesFx } from 'models/expenses';
 import { triggerMessage } from 'models/messages';
 import { $user, UserType } from 'models/user';
 import { getAuthHeader } from 'utils/getAuthHeader';
@@ -118,18 +119,34 @@ $categories.on(
       return undefined;
     }
 
-    // Todo: вызвать загрузку расходов, если есть расходы с текущией категорией
-
     // Некрасиво, но предположим, что категорий не будет очень много
     const index = prevCategories.findIndex((category) => category.id === id);
 
     // Todo: проверить, нет ли проблем из-за изменения не по ссылке
     prevCategories[index] = editedCategory;
-    return prevCategories;
+    return prevCategories.slice();
   }
 );
 
-// todo реакция expenses не удаление категории
+sample({
+  clock: editCategoryFx.done,
+  source: { user: $user, categoriesMap: $categoriesMap },
+  fn: ({
+    user,
+    categoriesMap,
+  }): ExpenseGettingPayload &
+    Pick<UserType, 'token'> & {
+      categoriesMap?: CategoriesMapType;
+    } => {
+    console.log(categoriesMap);
+    return {
+      token: user.token,
+      categoriesMap: categoriesMap,
+    };
+  },
+  target: getExpensesFx,
+});
+
 deleteCategoryFx.use(async ({ id, token }) => {
   try {
     const response = await request({
@@ -168,8 +185,24 @@ $categories.on(deleteCategoryFx.done, (prevCategories, { params: { id } }) =>
   prevCategories.filter((category) => category.id !== id)
 );
 
-// $expenses.on(deleteCategoryFx.doneData, (_, deleteCategoryApiResponse) => {
-//   if (deleteCategoryApiResponse.expenseDeletingTriggered) {
+// $expenses.on(deleteCategoryFx.done, (expenses, { params: { id } }) => {
+//   if (expenses.some((expense) => expense.id === id)) {
 //     return deleteCategoryApiResponse.categories;
 //   }
 // });
+
+sample({
+  clock: deleteCategoryFx.done,
+  source: { user: $user, categoriesMap: $categoriesMap },
+  fn: ({
+    user,
+    categoriesMap,
+  }): ExpenseGettingPayload &
+    Pick<UserType, 'token'> & {
+      categoriesMap?: CategoriesMapType;
+    } => ({
+    categoriesMap,
+    token: user.token,
+  }),
+  target: getExpensesFx,
+});

@@ -17,8 +17,8 @@ import 'swiper/scss';
 import 'swiper/scss/grid';
 import 'swiper/scss/pagination';
 import 'swiper/scss/navigation';
-import { ApproveModal, CreateCategoryModal } from 'components/modals';
-import { $categories, deleteCategory, getCategories } from 'models/categories';
+import { ApproveModal } from 'components/modals';
+import { $categories, deleteCategory } from 'models/categories';
 import { CategoryType } from 'models/categories/types';
 
 SwiperCore.use([Grid, Pagination, Navigation]);
@@ -32,12 +32,7 @@ const Categories: React.FC = () => {
   >(null);
 
   const deleteCategoryEvent = useEvent(deleteCategory);
-  const getCategoriesEvent = useEvent(getCategories);
   const categories = useStore($categories);
-
-  React.useEffect(() => {
-    getCategoriesEvent();
-  }, []);
 
   return (
     <>
@@ -91,13 +86,13 @@ const Categories: React.FC = () => {
           }
         }}
       />
-      <CreateCategoryModal
+      <CategoryModal
         editing={false}
         open={addCategoryVisible}
         onCancel={() => setAddCategoryVisible(false)}
       />
       {categoryToEdit && (
-        <CreateCategoryModal
+        <CategoryModal
           editing={true}
           category={categoryToEdit}
           open={!!categoryToEdit}

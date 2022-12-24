@@ -1,5 +1,5 @@
 export * from './ApproveModal';
 
-export * from './CreateCategoryModal';
+export * from './CategoryModal';
 
 export * from './CreateExpenseModal';
